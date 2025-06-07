@@ -33,9 +33,15 @@ class TelegramService implements TelegramServiceInterface
 
             $response = Http::post($url, $data);
 
-            return response()->json(['message' => 'Message sent successfully.', 'data' => $response->json()]);
+            return response()->json([
+                'message' => $response->successful() ? 'Message sent successfully.' : 'Telegram API Failed.',
+                'data'    => $response->json(),
+            ], $response->status());
         } catch (Exception $e) {
-            return response()->json(['message' => 'Failed to send message.', 'error' => $e->getMessage()]);
+            return response()->json([
+                'message' => 'Failed to send message.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 }
