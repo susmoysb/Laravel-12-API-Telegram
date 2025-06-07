@@ -19,7 +19,8 @@ class TelegramService implements TelegramServiceInterface
     {
         $this->botToken = config('telegram.bot_http_token');
         // $this->chatId   = config('telegram.bot_chat_id');
-        $this->chatId   = config('telegram.bot_group_chat_id'); // For Group
+        // $this->chatId   = config('telegram.bot_group_chat_id'); // For Group
+        $this->chatId   = config('telegram.bot_channel_chat_id'); // For Channel
     }
 
     public function sendMessage(string $message): JsonResponse
