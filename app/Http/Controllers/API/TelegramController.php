@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Contracts\TelegramServiceInterface;
 use App\Http\Controllers\Controller;
-use App\Services\TelegramService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,9 +13,9 @@ class TelegramController extends Controller
     /**
      * Create a new class instance.
      */
-    public function __construct(private TelegramService $telegramService) {}
+    public function __construct(private TelegramServiceInterface $telegramService) {}
 
-    public function sendMessage(Request $request)
+    public function sendMessage(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'message' => ['required']

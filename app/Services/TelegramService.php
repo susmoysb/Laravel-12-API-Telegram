@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Contracts\TelegramServiceInterface;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 
-class TelegramService
+class TelegramService implements TelegramServiceInterface
 {
     private $botToken;
     private $chatId;
@@ -19,7 +21,7 @@ class TelegramService
         $this->chatId   = config('telegram.telegram_bot_chat_id');
     }
 
-    public function sendMessage($message)
+    public function sendMessage(string $message): JsonResponse
     {
         try {
             $url = "https://api.telegram.org/bot{$this->botToken}/sendMessage";
@@ -29,9 +31,9 @@ class TelegramService
                 'text'    => $message,
             ];
 
-            Http::post($url, $data);
+            $response = Http::post($url, $data);
 
-            return response()->json(['message' => 'Message sent successfully.']);
+            return response()->json(['message' => 'Message sent successfully.', 'data' => $response->json()]);
         } catch (Exception $e) {
             return response()->json(['message' => 'Failed to send message.', 'error' => $e->getMessage()]);
         }
