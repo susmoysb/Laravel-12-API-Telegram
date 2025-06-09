@@ -31,7 +31,7 @@ class TelegramController extends Controller
     public function sendPhoto(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'photo'   => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:10240'],
+            'photo'   => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:10240'], // 10MB
             'caption' => ['sometimes', 'string'],
         ]);
 
@@ -40,5 +40,19 @@ class TelegramController extends Controller
         }
 
         return $this->telegramService->sendPhoto($request->photo, $request->caption ?? '');
+    }
+
+    public function sendDocument(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'document' => ['required', 'file', 'max:20480'], // 20MB
+            'caption'  => ['sometimes', 'string'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Validation Error', 'error' => $validator->errors()], 422);
+        }
+
+        return $this->telegramService->sendDocument($request->document, $request->caption ?? '');
     }
 }

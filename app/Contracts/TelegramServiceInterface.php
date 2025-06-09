@@ -9,4 +9,5 @@ interface TelegramServiceInterface
 {
     public function sendMessage(string $message): JsonResponse;
     public function sendPhoto(UploadedFile $message, string $caption): JsonResponse;
+    public function sendDocument(UploadedFile $message, string $caption): JsonResponse;
 }

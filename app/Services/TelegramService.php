@@ -84,4 +84,38 @@ class TelegramService implements TelegramServiceInterface
             ], 500);
         }
     }
+
+    public function sendDocument(UploadedFile $document, string $caption): JsonResponse
+    {
+        try {
+            $url = $this->baseUrl . 'sendDocument';
+
+            $documentPath = $document->getPathName();
+            $documentName = $document->getClientOriginalName();
+            $stream       = fopen($documentPath, 'r');
+
+            $data = [
+                'chat_id' => $this->chatId,
+                'caption' => $caption,
+            ];
+
+            $response = Http::attach(
+                'document',
+                $stream,
+                $documentName
+            )->post($url, $data);
+
+            fclose($stream);
+
+            return response()->json([
+                'message' => $response->successful() ? 'Document sent successfully.' : 'Telegram API failed.',
+                'data'    => $response->json(),
+            ], $response->status());
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Failed to send document.',
+                'error'   => $e->getMessage()
+            ], 500);
+        }
+    }
 }

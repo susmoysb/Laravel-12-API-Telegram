@@ -10,3 +10,4 @@ Route::get('/user', function (Request $request) {
 
 Route::post('send-message', [TelegramController::class, 'sendMessage']);
 Route::post('send-photo', [TelegramController::class, 'sendPhoto']);
+Route::post('send-document', [TelegramController::class, 'sendDocument']);
