@@ -10,6 +10,9 @@ This project is a Laravel 12-based RESTful API designed to integrate seamlessly 
 - Send photo to Telegram Bot
 - Send photo to Telegram Group
 - Send photo to Telegram Channel
+- Send document to Telegram Bot
+- Send document to Telegram Group
+- Send document to Telegram Channel
 
 ## Requirements
 - Telegram Account
