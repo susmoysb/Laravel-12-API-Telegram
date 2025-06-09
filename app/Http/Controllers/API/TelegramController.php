@@ -27,4 +27,18 @@ class TelegramController extends Controller
 
         return $this->telegramService->sendMessage($request->message);
     }
+
+    public function sendPhoto(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'photo'   => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:10240'],
+            'caption' => ['sometimes', 'string'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Validation Error', 'error' => $validator->errors()], 422);
+        }
+
+        return $this->telegramService->sendPhoto($request->photo, $request->caption ?? '');
+    }
 }

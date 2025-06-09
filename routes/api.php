@@ -9,3 +9,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('send-message', [TelegramController::class, 'sendMessage']);
+Route::post('send-photo', [TelegramController::class, 'sendPhoto']);
